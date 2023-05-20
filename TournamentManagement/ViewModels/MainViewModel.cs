@@ -24,7 +24,7 @@ public partial class MainViewModel : INotifyPropertyChanged
     }
 
     public static bool IsConnected { get; set; }
-
+    public bool IsShowAllTables { get; set; }
     public static string StatusText { get; set; }
     public static DbTournamentContext DbTournamentContext { get; set; }
 

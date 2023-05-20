@@ -20,7 +20,7 @@ public partial class SelectItemWindow : Window
 
         if (items.Count == 0)
         {
-            MessageBox.Show("No items available to select");
+            MessageBox.Show(messageBoxText: "No items available to select");
             Close();
             return;
         }
@@ -28,8 +28,8 @@ public partial class SelectItemWindow : Window
         viewModel.ItemType = items.First().GetType();
         Title = $"Select {viewModel.ItemType.Name}";
 
-        viewModel.Items = new ObservableCollection<IDbItem>(items);
-        viewModel.SelectedItem = defaultItem == null ? viewModel.Items.First() : viewModel.Items.FirstOrDefault(i => i.Id == defaultItem.Id);
+        viewModel.Items = new ObservableCollection<IDbItem>(collection: items);
+        viewModel.SelectedItem = defaultItem == null ? viewModel.Items.First() : viewModel.Items.FirstOrDefault(predicate: i => i.Id == defaultItem.Id);
     }
 
     public IDbItem ReturnItem { get; set; }

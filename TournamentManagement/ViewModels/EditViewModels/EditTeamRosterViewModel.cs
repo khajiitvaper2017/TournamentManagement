@@ -15,20 +15,20 @@ public partial class EditTeamRosterViewModel : INotifyPropertyChanged
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
-        SelectPlayerCommand = new RelayCommand(_ =>
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
+        SelectPlayerCommand = new RelayCommand(execute: _ =>
         {
-            var win = new SelectItemWindow(DbContext.Players.ToArray(),
-                DbContext.Players.FirstOrDefault(p => p.Id == PlayerId));
+            var win = new SelectItemWindow(items: DbContext.Players.Where(predicate: p => DbContext.TeamRosters.All(tr => tr.PlayerId != p.Id)).ToArray(),
+                defaultItem: DbContext.Players.FirstOrDefault(predicate: p => p.Id == PlayerId));
             win.ShowDialog();
             if (win.DialogResult != true) return;
 
             PlayerId = (win.ReturnItem as Player)?.Id ?? default(int);
         });
-        SelectTeamCommand = new RelayCommand(_ =>
+        SelectTeamCommand = new RelayCommand(execute: _ =>
         {
-            var win = new SelectItemWindow(DbContext.Teams.ToArray(),
-                DbContext.Teams.FirstOrDefault(t => t.Id == TeamId));
+            var win = new SelectItemWindow(items: DbContext.Teams.ToArray(),
+                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == TeamId));
             win.ShowDialog();
             if (win.DialogResult != true) return;
             TeamId = (win.ReturnItem as Team)?.Id ?? default(int);
@@ -41,27 +41,27 @@ public partial class EditTeamRosterViewModel : INotifyPropertyChanged
     protected DbTournamentContext DbContext { get; }
     public TeamRoster? Item { get; set; }
 
-    [AlsoNotifyFor("PlayerName")] public int PlayerId { get; set; }
-    [AlsoNotifyFor("TeamName")] public int TeamId { get; set; }
+    [AlsoNotifyFor(property: "PlayerName")] public int PlayerId { get; set; }
+    [AlsoNotifyFor(property: "TeamName")] public int TeamId { get; set; }
 
-    public string PlayerName => DbContext.Players.FirstOrDefault(p => p.Id == PlayerId)?.Name ?? string.Empty;
-    public string TeamName => DbContext.Teams.FirstOrDefault(t => t.Id == TeamId)?.Name ?? string.Empty;
+    public string PlayerName => DbContext.Players.FirstOrDefault(predicate: p => p.Id == PlayerId)?.Name ?? string.Empty;
+    public string TeamName => DbContext.Teams.FirstOrDefault(predicate: t => t.Id == TeamId)?.Name ?? string.Empty;
     public string PlayerPosition { get; set; }
 
     protected bool IsValidData
     {
         get
         {
-            if (DbContext.Players.Find(PlayerId) == null || DbContext.Teams.Find(TeamId) == null)
+            if (DbContext.Players.Find(keyValues: PlayerId) == null || DbContext.Teams.Find(keyValues: TeamId) == null)
                 return false;
             // Additional validation rules can be added here
-            if (string.IsNullOrEmpty(PlayerPosition))
+            if (string.IsNullOrEmpty(value: PlayerPosition))
                 return false;
             return true;
         }
     }
 
-    public void SetItem(TeamRoster? item)
+    public void SetTeamRoster(TeamRoster? item)
     {
         if (item == null)
             return;
@@ -70,21 +70,29 @@ public partial class EditTeamRosterViewModel : INotifyPropertyChanged
         TeamId = item.TeamId ?? default(int);
         PlayerPosition = item.PlayerPosition;
 
-        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
     }
 
+    public void SetTeam(Team? team)
+    {
+        if (team == null)
+            return;
+        TeamId = team.Id;
+
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
+    }
     protected void InsertItem(object obj)
     {
-        DbContext.InsertTeamRoster(PlayerId, TeamId, PlayerPosition);
+        DbContext.InsertTeamRoster(playerId: PlayerId, teamId: TeamId, playerPosition: PlayerPosition);
 
-        Close(obj as EditTeamRosterWindow);
+        Close(window: obj as EditTeamRosterWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditTeamRoster(Item.Id, PlayerId, TeamId, PlayerPosition);
+        DbContext.EditTeamRoster(rosterId: Item.Id, playerId: PlayerId, teamId: TeamId, playerPosition: PlayerPosition);
 
-        Close(obj as EditTeamRosterWindow);
+        Close(window: obj as EditTeamRosterWindow);
     }
 
     protected void Close(Window? window)

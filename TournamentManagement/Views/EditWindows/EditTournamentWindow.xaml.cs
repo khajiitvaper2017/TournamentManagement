@@ -26,7 +26,7 @@ namespace TournamentManagement.Views.EditWindows
 
             var viewModel = DataContext as ViewModels.EditViewModels.EditTournamentViewModel;
 
-            viewModel?.SetItem(tournament);
+            viewModel?.SetItem(item: tournament);
         }
     }
 }

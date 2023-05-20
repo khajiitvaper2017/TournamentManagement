@@ -38,14 +38,14 @@ namespace TournamentManagement.Views
             else
             {
                 Settings.Default.ConnectionString = TextBox.Text;
-                MainViewModel.LoadDatabase(Settings.Default.ConnectionString);
+                MainViewModel.LoadDatabase(connectionString: Settings.Default.ConnectionString);
 
                 if(MainViewModel.IsConnected == false)
                 {
-                    MessageBox.Show("Failed to connect to database. Changes were reverted", "Error", MessageBoxButton.OK);
+                    MessageBox.Show(messageBoxText: "Failed to connect to database. Changes were reverted", caption: "Error", button: MessageBoxButton.OK);
                     
                     Settings.Default.Reload();
-                    MainViewModel.LoadDatabase(Settings.Default.ConnectionString);
+                    MainViewModel.LoadDatabase(connectionString: Settings.Default.ConnectionString);
                 }
                 else
                 {

@@ -5,12 +5,12 @@ namespace TournamentManagement.ViewModels.TableViewModels;
 
 public class TeamRosterViewModel : TableViewModel<TeamRoster>
 {
-    public TeamRosterViewModel() : base(MainViewModel.TeamRosters,
-        new RelayCommand(_ => { new EditTeamRosterWindow().ShowDialog(); }),
-        new RelayCommand(_ => { MainViewModel.DbTournamentContext.DeleteTeamRoster(SelectedItem.Id); },
-            _ => SelectedItem != null),
-        new RelayCommand(_ => { new EditTeamRosterWindow(SelectedItem).ShowDialog(); },
-            _ => SelectedItem != null)
+    public TeamRosterViewModel() : base(items: MainViewModel.TeamRosters,
+        addCommand: new RelayCommand(execute: _ => { new EditTeamRosterWindow(team: SelectedItem.Team).ShowDialog(); }),
+        deleteCommand: new RelayCommand(execute: _ => { MainViewModel.DbTournamentContext.DeleteTeamRoster(rosterId: SelectedItem.Id); },
+            canExecute: _ => SelectedItem != null),
+        editCommand: new RelayCommand(execute: _ => { new EditTeamRosterWindow(teamRoster: SelectedItem).ShowDialog(); },
+            canExecute: _ => SelectedItem != null)
     )
     {
     }

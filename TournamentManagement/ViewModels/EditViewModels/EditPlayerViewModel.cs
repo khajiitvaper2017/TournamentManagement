@@ -13,7 +13,7 @@ public partial class EditPlayerViewModel : INotifyPropertyChanged
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }
@@ -30,8 +30,8 @@ public partial class EditPlayerViewModel : INotifyPropertyChanged
     {
         get
         {
-            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) ||
-                string.IsNullOrEmpty(Nickname) || string.IsNullOrEmpty(Country))
+            if (string.IsNullOrEmpty(value: FirstName) || string.IsNullOrEmpty(value: LastName) ||
+                string.IsNullOrEmpty(value: Nickname) || string.IsNullOrEmpty(value: Country))
                 return false;
             if (DateOfBirth.Year < 1970 || DateOfBirth.Year > DateTime.Now.Year)
                 return false;
@@ -50,21 +50,21 @@ public partial class EditPlayerViewModel : INotifyPropertyChanged
         Country = item.Country;
         DateOfBirth = item.DateOfBirth ?? DateTime.Now;
 
-        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertPlayer(FirstName, LastName, Nickname, Country, DateOfBirth);
+        DbContext.InsertPlayer(firstName: FirstName, lastName: LastName, nickname: Nickname, country: Country, dateOfBirth: DateOfBirth);
 
-        Close(obj as EditPlayerWindow);
+        Close(window: obj as EditPlayerWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditPlayer(Item.Id, FirstName, LastName, Nickname, Country, DateOfBirth);
+        DbContext.EditPlayer(playerId: Item.Id, firstName: FirstName, lastName: LastName, nickname: Nickname, country: Country, dateOfBirth: DateOfBirth);
 
-        Close(obj as EditPlayerWindow);
+        Close(window: obj as EditPlayerWindow);
     }
 
     protected void Close(Window? window)

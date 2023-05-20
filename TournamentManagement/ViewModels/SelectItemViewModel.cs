@@ -13,29 +13,60 @@ public partial class SelectItemViewModel : INotifyPropertyChanged
 {
     public SelectItemViewModel()
     {
-        OkCommand = new RelayCommand(Ok, _ => SelectedItem != null);
-        CancelCommand = new RelayCommand(Cancel);
-        AddCommand = new RelayCommand(_ =>
+        OkCommand = new RelayCommand(execute: Ok, canExecute: _ => SelectedItem != null);
+        CancelCommand = new RelayCommand(execute: Cancel);
+        AddCommand = new RelayCommand(execute: _ =>
         {
             switch (ItemType)
             {
+                
                 case { } t when t == typeof(Team):
-                    new EditTeamWindow().ShowDialog();
+                    var editTeamWindow = new EditTeamWindow();
+                    editTeamWindow.ShowDialog();
+                    if (editTeamWindow.DialogResult == true)
+                    {
+                        Items.Add(item: MainViewModel.Teams[^1]);
+                        SelectedItem = MainViewModel.Teams[^1];
+                    }
                     break;
                 case { } t when t == typeof(Player):
-                    new EditPlayerWindow().ShowDialog();
+                    var editPlayerWindow = new EditPlayerWindow();
+                    editPlayerWindow.ShowDialog();
+                    if (editPlayerWindow.DialogResult == true)
+                    {
+                        Items.Add(item: MainViewModel.Players[^1]);
+                        SelectedItem = MainViewModel.Players[^1];
+                    }
                     break;
                 case { } t when t == typeof(Tournament):
-                    new EditTournamentWindow().ShowDialog();
+                    var editTournamentWindow = new EditTournamentWindow();
+                    editTournamentWindow.ShowDialog();
+                    if (editTournamentWindow.DialogResult == true)
+                    {
+                        Items.Add(item: MainViewModel.Tournaments[^1]);
+                        SelectedItem = MainViewModel.Tournaments[^1];
+                    }
                     break;
                 case { } t when t == typeof(Match):
-                    new EditMatchWindow().ShowDialog();
+                    var editMatchWindow = new EditMatchWindow();
+                    editMatchWindow.ShowDialog();
+                    if (editMatchWindow.DialogResult == true)
+                    {
+                        Items.Add(item: MainViewModel.Matches[^1]);
+                        SelectedItem = MainViewModel.Matches[^1];
+                    }
                     break;
                 case { } t when t == typeof(TeamRoster):
-                    new EditTeamRosterWindow().ShowDialog();
+                    var editTeamRosterWindow = new EditTeamRosterWindow();
+                    editTeamRosterWindow.ShowDialog();
+                    if (editTeamRosterWindow.DialogResult == true)
+                    {
+                        Items.Add(item: MainViewModel.TeamRosters[^1]);
+                        SelectedItem = MainViewModel.TeamRosters[^1];
+                    }
                     break;
             }
-        }, _ => ItemType != null);
+        }, canExecute: _ => ItemType != null);
     }
 
     public string Title { get; set; }
@@ -50,12 +81,12 @@ public partial class SelectItemViewModel : INotifyPropertyChanged
     public void Ok(object parameter)
     {
         (parameter as SelectItemWindow).ReturnItem = SelectedItem;
-        Close(parameter as Window, true);
+        Close(window: parameter as Window, result: true);
     }
 
     public void Cancel(object parameter)
     {
-        Close(parameter as Window, false);
+        Close(window: parameter as Window, result: false);
     }
 
     public void Close(Window? window, bool result)

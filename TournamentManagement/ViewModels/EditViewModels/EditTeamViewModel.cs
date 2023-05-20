@@ -13,7 +13,7 @@ public partial class EditTeamViewModel : INotifyPropertyChanged
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }
@@ -30,7 +30,7 @@ public partial class EditTeamViewModel : INotifyPropertyChanged
     {
         get
         {
-            if (string.IsNullOrEmpty(TeamName) || string.IsNullOrEmpty(Country))
+            if (string.IsNullOrEmpty(value: TeamName) || string.IsNullOrEmpty(value: Country))
                 return false;
             if (DateCreated.Year < 1970 || DateCreated.Year > DateTime.Now.Year)
                 return false;
@@ -53,21 +53,21 @@ public partial class EditTeamViewModel : INotifyPropertyChanged
         Wins = item.Wins ?? 0;
         Losses = item.Losses ?? 0;
 
-        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertTeam(TeamName, Country, DateCreated, Wins, Losses);
+        DbContext.InsertTeam(teamName: TeamName, country: Country, dateCreated: DateCreated, wins: Wins, losses: Losses);
 
-        Close(obj as EditTeamWindow);
+        Close(window: obj as EditTeamWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditTeam(Item.Id, TeamName, Country, DateCreated, Wins, Losses);
+        DbContext.EditTeam(teamId: Item.Id, teamName: TeamName, country: Country, dateCreated: DateCreated, wins: Wins, losses: Losses);
 
-        Close(obj as EditTeamWindow);
+        Close(window: obj as EditTeamWindow);
     }
 
     protected void Close(Window? window)

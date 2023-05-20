@@ -16,12 +16,12 @@ public class RelayCommand : ICommand
 
     public bool CanExecute(object? parameter = null)
     {
-        return canExecute == null || canExecute(parameter);
+        return canExecute == null || canExecute(obj: parameter);
     }
 
     public void Execute(object? parameter = null)
     {
-        execute(parameter);
+        execute(obj: parameter);
     }
 
     public event EventHandler CanExecuteChanged

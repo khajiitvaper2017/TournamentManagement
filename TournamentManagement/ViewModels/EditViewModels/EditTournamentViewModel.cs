@@ -13,7 +13,7 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }
@@ -29,7 +29,7 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged
     {
         get
         {
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Location) ||
+            if (string.IsNullOrEmpty(value: Name) || string.IsNullOrEmpty(value: Location) ||
                 StartDate > EndDate)
                 return false;
             return true;
@@ -46,21 +46,21 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged
         EndDate = item.EndDate ?? DateTime.Now;
         Location = item.Location;
 
-        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertTournament(Name, StartDate, EndDate, Location);
+        DbContext.InsertTournament(tournamentName: Name, startDate: StartDate, endDate: EndDate, location: Location);
 
-        Close(obj as EditTournamentWindow);
+        Close(window: obj as EditTournamentWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditTournament(Item.Id, Name, StartDate, EndDate, Location);
+        DbContext.EditTournament(tournamentId: Item.Id, tournamentName: Name, startDate: StartDate, endDate: EndDate, location: Location);
 
-        Close(obj as EditTournamentWindow);
+        Close(window: obj as EditTournamentWindow);
     }
 
     protected void Close(Window? window)

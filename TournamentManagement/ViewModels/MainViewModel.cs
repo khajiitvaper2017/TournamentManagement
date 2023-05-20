@@ -13,14 +13,14 @@ public partial class MainViewModel : INotifyPropertyChanged
 {
     public MainViewModel()
     {
-        LoadDatabase(Settings.Default.ConnectionString);
+        LoadDatabase(connectionString: Settings.Default.ConnectionString);
 
-        OpenTeamViewCommand = new RelayCommand(_ => { new TeamWindow().ShowDialog(); }, _ => IsConnected);
-        OpenPlayerViewCommand = new RelayCommand(_ => { new PlayerWindow().ShowDialog(); }, _ => IsConnected);
-        OpenTournamentViewCommand = new RelayCommand(_ => { new TournamentWindow().ShowDialog(); }, _ => IsConnected);
-        OpenTeamRosterViewCommand = new RelayCommand(_ => { new TeamRosterWindow().ShowDialog(); }, _ => IsConnected);
-        OpenMatchViewCommand = new RelayCommand(_ => { new MatchWindow().ShowDialog(); }, _ => IsConnected);
-        OpenSettingsViewCommand = new RelayCommand(_ => { new SettingsWindow().ShowDialog(); });
+        OpenTeamViewCommand = new RelayCommand(execute: _ => { new TeamWindow().ShowDialog(); }, canExecute: _ => IsConnected);
+        OpenPlayerViewCommand = new RelayCommand(execute: _ => { new PlayerWindow().ShowDialog(); }, canExecute: _ => IsConnected);
+        OpenTournamentViewCommand = new RelayCommand(execute: _ => { new TournamentWindow().ShowDialog(); }, canExecute: _ => IsConnected);
+        OpenTeamRosterViewCommand = new RelayCommand(execute: _ => { new TeamRosterWindow().ShowDialog(); }, canExecute: _ => IsConnected);
+        OpenMatchViewCommand = new RelayCommand(execute: _ => { new MatchWindow().ShowDialog(); }, canExecute: _ => IsConnected);
+        OpenSettingsViewCommand = new RelayCommand(execute: _ => { new SettingsWindow().ShowDialog(); });
     }
 
     public static bool IsConnected { get; set; }
@@ -47,7 +47,7 @@ public partial class MainViewModel : INotifyPropertyChanged
 
     public static void LoadDatabase(string connectionString)
     {
-        DbTournamentContext = new DbTournamentContext(connectionString);
+        DbTournamentContext = new DbTournamentContext(connectionString: connectionString);
         IsConnected = DbTournamentContext.Database.CanConnect();
         StatusText = IsConnected ? "Successfully connected to database." : "Failed to connect to database.";
         if (!IsConnected) return;

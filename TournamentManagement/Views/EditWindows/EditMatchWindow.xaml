@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -46,9 +47,11 @@
         <!-- <TextBox materialDesign:HintAssist.Hint="Result" Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedTextBox}" Margin="5" Text="{Binding Result}" /> -->
         <ComboBox Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="5"
                   ItemsSource="{Binding ResultOptions}" SelectedItem="{Binding Result}" />
-        <DatePicker Grid.Row="4" Style="{DynamicResource MaterialDesignDatePicker}" Margin="5"
+        <ComboBox Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="5"
+                  ItemsSource="{Binding MapOptions}" SelectedItem="{Binding Map}" />
+        <DatePicker Grid.Row="5" Style="{DynamicResource MaterialDesignDatePicker}" Margin="5"
                     SelectedDate="{Binding Date}" />
-        <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton}" Grid.Row="7" Content="Save"
+        <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton}" Grid.Row="8" Content="Save"
                 Command="{Binding EditCommand}" />
     </Grid>
 </Window>

@@ -21,5 +21,5 @@ public partial class Player : INotifyPropertyChanged, IDbItem
     public virtual ICollection<TeamRoster> TeamRosters { get; set; } = new List<TeamRoster>();
     public int Id { get; set; }
 
-    [NotMapped] public string Name => $"{FirstName} {LastName}";
+    [NotMapped] public string Name => $"{FirstName} \"{Nickname}\" {LastName}";
 }

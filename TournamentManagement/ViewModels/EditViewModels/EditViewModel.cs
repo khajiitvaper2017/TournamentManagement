@@ -10,7 +10,7 @@ public abstract partial class EditViewModel<T> : INotifyPropertyChanged where T 
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
+        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }

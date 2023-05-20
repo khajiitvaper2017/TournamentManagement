@@ -28,12 +28,16 @@
                 <DataGridTextColumn Header="Wins" Binding="{Binding Wins}" />
                 <DataGridTextColumn Header="Losses" Binding="{Binding Losses}" />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete Team" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Edit Team" Command="{Binding EditCommand}" />
+                    <MenuItem Header="View Team Roster" Command="{Binding ViewTeamRosterCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Add Team" Command="{Binding AddCommand}" Margin="0,10,10,10" />
-            <Button Content="Delete Team" Command="{Binding DeleteCommand}" Margin="0,10,10,10" />
-            <Button Content="Edit Team" Command="{Binding EditCommand}" Margin="0,10,10,10" />
-            <Button Content="View Team Roster" Command="{Binding ViewTeamRosterCommand}" Margin="0,10,10,10" />
         </StackPanel>
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ public partial class Match : INotifyPropertyChanged, IDbItem
     public int? Team2Id { get; set; }
 
     public DateTime? Date { get; set; }
+    public string? Map { get; set; }
 
     public string? Result { get; set; }
 

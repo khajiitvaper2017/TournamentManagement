@@ -1,0 +1,31 @@
+﻿<Window x:Class="TournamentManagement.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:TournamentManagement.ViewModels"
+        Title="Admin Panel" Height="380" Width="320"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10" Grid.Row="0">
+            <Button Margin="10" Content="Teams" Command="{Binding OpenTeamViewCommand}" />
+            <!-- <Button Margin="10" Grid.Row="1" Content="Players" Command="{Binding OpenPlayerViewCommand}" /> -->
+            <Button Margin="10" Content="Tournaments" Command="{Binding OpenTournamentViewCommand}" />
+            <!-- <Button Margin="10" Grid.Row="3" Content="Matches" Command="{Binding OpenMatchViewCommand}" /> -->
+            <!-- <Button Margin="10" Grid.Row="4" Content="Team Rosters" Command="{Binding OpenTeamRosterViewCommand}" /> -->
+
+            <!-- <Button Margin="10" Grid.Row="6" Content="Overview" Command="{Binding OpenOverviewViewCommand}" /> -->
+        </StackPanel>
+        <StatusBar Grid.Row="2" HorizontalAlignment="Center">
+            <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding OpenSettingsViewCommand}" Content="Settings" />
+        </StatusBar>
+    </Grid>
+</Window>

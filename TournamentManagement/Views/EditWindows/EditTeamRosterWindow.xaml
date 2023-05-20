@@ -1,0 +1,41 @@
+﻿<Window x:Class="TournamentManagement.Views.EditWindows.EditTeamRosterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:editViewModels="clr-namespace:TournamentManagement.ViewModels.EditViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Edit Team Roster" Height="300" Width="400" MaxWidth="400"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <editViewModels:EditTeamRosterViewModel />
+    </Window.DataContext>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox materialDesign:HintAssist.Hint="Player" Width="221"
+                     Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
+                     Text="{Binding PlayerName, Mode=OneWay}" IsReadOnly="True" />
+            <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
+                    HorizontalAlignment="Right" Margin="5" Content="Select Player"
+                    Command="{Binding SelectPlayerCommand}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox materialDesign:HintAssist.Hint="Team" Width="227"
+                     Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
+                     Text="{Binding TeamName, Mode=OneWay}" IsReadOnly="True" />
+            <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
+                    HorizontalAlignment="Right" Margin="5" Content="Select Team"
+                    Command="{Binding SelectTeamCommand}" />
+        </StackPanel>
+        <TextBox materialDesign:HintAssist.Hint="Player Position"
+                 Style="{DynamicResource MaterialDesignOutlinedTextBox}" Margin="5" Grid.Row="2"
+                 Text="{Binding PlayerPosition}" />
+        <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton}" Grid.Row="4" Content="Save"
+                Command="{Binding EditCommand}" />
+    </Grid>
+</Window>

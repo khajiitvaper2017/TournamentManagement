@@ -1,0 +1,43 @@
+﻿<Window x:Class="TournamentManagement.Views.TableWindows.MatchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:tableViewModels="clr-namespace:TournamentManagement.ViewModels.TableViewModels"
+        Title="Matches" Height="550" Width="800" MaxWidth="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <tableViewModels:MatchViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <CollectionViewSource x:Key="ItemsViewSource" Source="{Binding Items}" Filter="ItemsViewSource_OnFilter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding Source={StaticResource ItemsViewSource}}"
+                  SelectedItem="{Binding SelectedItem}"
+                  AutoGenerateColumns="False"
+                  materialDesign:DataGridAssist.CellPadding="16 8 8 8"
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="16 8 8 8"
+                  CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tournament" Binding="{Binding Tournament.Name}" />
+                <DataGridTextColumn Header="Team 1" Binding="{Binding Team1.Name}" />
+                <DataGridTextColumn Header="Team 2" Binding="{Binding Team2.Name}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:MM/dd/yyyy}}" />
+                <DataGridTextColumn Header="Result" Binding="{Binding Result}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Add Match" Command="{Binding AddCommand}" HorizontalAlignment="Right"
+                    Margin="0,10,10,10" />
+            <Button Content="Remove Match" Command="{Binding DeleteCommand}" HorizontalAlignment="Right"
+                    Margin="0,10,10,10" />
+            <Button Content="Edit Match" Command="{Binding EditCommand}" HorizontalAlignment="Right"
+                    Margin="0,10,10,10" />
+        </StackPanel>
+    </Grid>
+</Window>

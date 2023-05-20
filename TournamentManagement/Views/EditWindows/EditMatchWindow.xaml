@@ -1,0 +1,54 @@
+﻿<Window x:Class="TournamentManagement.Views.EditWindows.EditMatchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:editViewModels="clr-namespace:TournamentManagement.ViewModels.EditViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Edit Match" Height="450" Width="400" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <editViewModels:EditMatchViewModel />
+    </Window.DataContext>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox materialDesign:HintAssist.Hint="Team 1" Width="217"
+                     Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
+                     Text="{Binding Team1Name, Mode=OneWay}" IsReadOnly="True" />
+            <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
+                    HorizontalAlignment="Right" Margin="5" Content="Select Team 1"
+                    Command="{Binding SelectTeam1Command}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox materialDesign:HintAssist.Hint="Team 2" Width="215"
+                     Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
+                     Text="{Binding Team2Name, Mode=OneWay}" IsReadOnly="True" />
+            <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
+                    HorizontalAlignment="Right" Margin="5" Content="Select Team 2"
+                    Command="{Binding SelectTeam2Command}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox materialDesign:HintAssist.Hint="Tournament" Width="185"
+                     Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
+                     Text="{Binding TournamentName, Mode=OneWay}" IsReadOnly="True" />
+            <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
+                    HorizontalAlignment="Right" Margin="5" Content="Select Tournament"
+                    Command="{Binding SelectTournamentCommand}" />
+        </StackPanel>
+        <!-- <TextBox materialDesign:HintAssist.Hint="Result" Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedTextBox}" Margin="5" Text="{Binding Result}" /> -->
+        <ComboBox Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="5"
+                  ItemsSource="{Binding ResultOptions}" SelectedItem="{Binding Result}" />
+        <DatePicker Grid.Row="4" Style="{DynamicResource MaterialDesignDatePicker}" Margin="5"
+                    SelectedDate="{Binding Date}" />
+        <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton}" Grid.Row="7" Content="Save"
+                Command="{Binding EditCommand}" />
+    </Grid>
+</Window>

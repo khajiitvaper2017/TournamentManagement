@@ -7,7 +7,7 @@ using TournamentManagement.Views.EditWindows;
 
 namespace TournamentManagement.ViewModels.EditViewModels;
 
-public partial class EditTeamViewModel : INotifyPropertyChanged
+public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
 {
     public EditTeamViewModel()
     {

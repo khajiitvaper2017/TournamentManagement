@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:editViewModels="clr-namespace:TournamentManagement.ViewModels.EditViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Edit Team Roster" Height="300" Width="400" MaxWidth="400"
+        Title="Edit Team Roster" Height="300" Width="400" MaxWidth="400" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <editViewModels:EditTeamRosterViewModel />
@@ -22,7 +22,8 @@
                      Text="{Binding PlayerName, Mode=OneWay}" IsReadOnly="True" />
             <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
                     HorizontalAlignment="Right" Margin="5" Content="Select Player"
-                    Command="{Binding SelectPlayerCommand}" />
+                    Command="{Binding SelectPlayerCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
         </StackPanel>
         <StackPanel Name="TeamSelector" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBox materialDesign:HintAssist.Hint="Team" Width="227"
@@ -30,7 +31,8 @@
                      Text="{Binding TeamName, Mode=OneWay}" IsReadOnly="True" />
             <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
                     HorizontalAlignment="Right" Margin="5" Content="Select Team"
-                    Command="{Binding SelectTeamCommand}" />
+                    Command="{Binding SelectTeamCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
         </StackPanel>
         <TextBox materialDesign:HintAssist.Hint="Player Position"
                  Style="{DynamicResource MaterialDesignOutlinedTextBox}" Margin="5" Grid.Row="2"

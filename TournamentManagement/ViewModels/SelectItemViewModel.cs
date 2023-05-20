@@ -75,7 +75,7 @@ public partial class SelectItemViewModel : INotifyPropertyChanged
     public RelayCommand OkCommand { get; set; }
     public RelayCommand CancelCommand { get; set; }
     public RelayCommand AddCommand { get; set; }
-    public Type ItemType { get; set; }
+    public Type? ItemType { get; set; }
 
 
     public void Ok(object parameter)

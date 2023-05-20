@@ -11,34 +11,35 @@ using TournamentManagement.Views.EditWindows;
 
 namespace TournamentManagement.ViewModels.EditViewModels;
 
-public partial class EditMatchViewModel : INotifyPropertyChanged
+public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
 {
     public EditMatchViewModel()
     {
         DbContext = MainViewModel.DbTournamentContext;
 
         EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
-        SelectTeam1Command = new RelayCommand(execute: _ =>
+        SelectTeam1Command = new RelayCommand(execute: obj =>
         {
             var win = new SelectItemWindow(items: DbContext.Teams.Where(predicate: t => t.Id != Team2Id).ToArray(),
-                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team1Id));
+                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team1Id)){Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
 
             Team1Id = (win.ReturnItem as Team)?.Id ?? default(int);
         });
-        SelectTeam2Command = new RelayCommand(execute: _ =>
+        SelectTeam2Command = new RelayCommand(execute: obj =>
         {
             var win = new SelectItemWindow(items: DbContext.Teams.Where(predicate: t => t.Id != Team1Id).ToArray(),
-                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team2Id));
+                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team2Id)){Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
             Team2Id = (win.ReturnItem as Team)?.Id ?? default(int);
         });
-        SelectTournamentCommand = new RelayCommand(execute: _ =>
+        SelectTournamentCommand = new RelayCommand(execute: obj =>
         {
             var win = new SelectItemWindow(items: DbContext.Tournaments.ToArray(),
-                defaultItem: DbContext.Tournaments.FirstOrDefault(predicate: t => t.Id == TournamentId));
+                defaultItem: DbContext.Tournaments.FirstOrDefault(predicate: t => t.Id == TournamentId))
+            { Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
             TournamentId = (win.ReturnItem as Tournament)?.Id ?? default(int);

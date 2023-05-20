@@ -7,16 +7,18 @@ using TournamentManagement.Views.EditWindows;
 
 namespace TournamentManagement.ViewModels.EditViewModels;
 
-public partial class EditPlayerViewModel : INotifyPropertyChanged
+public partial class EditPlayerViewModel : INotifyPropertyChanged, IItem<Player>
 {
     public EditPlayerViewModel()
     {
         DbContext = MainViewModel.DbTournamentContext;
 
         EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
+        CancelCommand = new RelayCommand(execute: obj => Close(window: obj as Window));
     }
 
     public RelayCommand EditCommand { get; set; }
+    public RelayCommand CancelCommand { get; set; }
     protected DbTournamentContext DbContext { get; }
     public Player? Item { get; set; }
 
@@ -69,6 +71,7 @@ public partial class EditPlayerViewModel : INotifyPropertyChanged
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

@@ -4,31 +4,35 @@ using System.Windows;
 using PropertyChanged;
 using TournamentManagement.Models.Classes;
 using TournamentManagement.Models.DbContext;
+using TournamentManagement.Models.Interfaces;
 using TournamentManagement.Views;
 using TournamentManagement.Views.EditWindows;
 
 namespace TournamentManagement.ViewModels.EditViewModels;
 
-public partial class EditTeamRosterViewModel : INotifyPropertyChanged
+public partial class EditTeamRosterViewModel : INotifyPropertyChanged, IItem<TeamRoster>
 {
     public EditTeamRosterViewModel()
     {
         DbContext = MainViewModel.DbTournamentContext;
 
         EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
-        SelectPlayerCommand = new RelayCommand(execute: _ =>
+        SelectPlayerCommand = new RelayCommand(execute: obj =>
         {
             var win = new SelectItemWindow(items: DbContext.Players.Where(predicate: p => DbContext.TeamRosters.All(tr => tr.PlayerId != p.Id)).ToArray(),
-                defaultItem: DbContext.Players.FirstOrDefault(predicate: p => p.Id == PlayerId));
+                defaultItem: DbContext.Players.FirstOrDefault(predicate: p => p.Id == PlayerId))
+            { Owner = obj as Window };
+
             win.ShowDialog();
             if (win.DialogResult != true) return;
 
             PlayerId = (win.ReturnItem as Player)?.Id ?? default(int);
         });
-        SelectTeamCommand = new RelayCommand(execute: _ =>
+        SelectTeamCommand = new RelayCommand(execute: obj =>
         {
             var win = new SelectItemWindow(items: DbContext.Teams.ToArray(),
-                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == TeamId));
+                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == TeamId))
+                { Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
             TeamId = (win.ReturnItem as Team)?.Id ?? default(int);
@@ -99,4 +103,9 @@ public partial class EditTeamRosterViewModel : INotifyPropertyChanged
     {
         window?.Close();
     }
+}
+
+public interface IItem<T> where T : class, IDbItem
+{
+    public T? Item { get; set; }
 }

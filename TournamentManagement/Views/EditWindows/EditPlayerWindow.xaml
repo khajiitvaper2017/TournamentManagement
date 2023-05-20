@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:editViewModels="clr-namespace:TournamentManagement.ViewModels.EditViewModels"
         mc:Ignorable="d"
-        Title="Edit Player" Height="400" Width="300"
+        Title="Edit Player" Height="400" Width="300" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <editViewModels:EditPlayerViewModel />

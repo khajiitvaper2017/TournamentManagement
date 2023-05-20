@@ -32,6 +32,11 @@
                     <MenuItem Header="View Tournament Matches" Command="{Binding ViewMatchCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            <DataGrid.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
+                    Command="{Binding ViewMatchCommand}"/>
+            </DataGrid.InputBindings>
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Add Tournament" Command="{Binding AddCommand}"

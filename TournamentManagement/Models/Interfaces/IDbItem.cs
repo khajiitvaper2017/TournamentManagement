@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TournamentManagement.Models.Interfaces;
 
-namespace TournamentManagement.Models.Interfaces
+public interface IDbItem : IIdentifier, IName
 {
-    public interface IDbItem: IIdentifier, IName
-    {
-    }
 }

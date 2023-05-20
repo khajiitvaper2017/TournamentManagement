@@ -1,32 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using TournamentManagement.Models.Classes;
+using TournamentManagement.ViewModels.EditViewModels;
 
-namespace TournamentManagement.Views.EditWindows
+namespace TournamentManagement.Views.EditWindows;
+
+/// <summary>
+///     Interaction logic for EditTournamentWindow.xaml
+/// </summary>
+public partial class EditTournamentWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EditTournamentWindow.xaml
-    /// </summary>
-    public partial class EditTournamentWindow : Window
+    public EditTournamentWindow(Tournament? tournament = null)
     {
-        public EditTournamentWindow(Tournament? tournament = null)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            var viewModel = DataContext as ViewModels.EditViewModels.EditTournamentViewModel;
+        var viewModel = DataContext as EditTournamentViewModel;
 
-            viewModel?.SetItem(item: tournament);
-        }
+        viewModel?.SetItem(tournament);
     }
 }

@@ -13,12 +13,11 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged, IItem<Tou
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
+        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }
     protected DbTournamentContext DbContext { get; }
-    public Tournament? Item { get; set; }
 
     public string Name { get; set; }
     public DateTime StartDate { get; set; } = DateTime.Now;
@@ -29,12 +28,14 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged, IItem<Tou
     {
         get
         {
-            if (string.IsNullOrEmpty(value: Name) || string.IsNullOrEmpty(value: Location) ||
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Location) ||
                 StartDate > EndDate)
                 return false;
             return true;
         }
     }
+
+    public Tournament? Item { get; set; }
 
     public void SetItem(Tournament? item)
     {
@@ -46,21 +47,21 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged, IItem<Tou
         EndDate = item.EndDate ?? DateTime.Now;
         Location = item.Location;
 
-        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
+        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertTournament(tournamentName: Name, startDate: StartDate, endDate: EndDate, location: Location);
+        DbContext.InsertTournament(Name, StartDate, EndDate, Location);
 
-        Close(window: obj as EditTournamentWindow);
+        Close(obj as EditTournamentWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditTournament(tournamentId: Item.Id, tournamentName: Name, startDate: StartDate, endDate: EndDate, location: Location);
+        DbContext.EditTournament(Item.Id, Name, StartDate, EndDate, Location);
 
-        Close(window: obj as EditTournamentWindow);
+        Close(obj as EditTournamentWindow);
     }
 
     protected void Close(Window? window)

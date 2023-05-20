@@ -13,12 +13,11 @@ public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
+        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
     }
 
     public RelayCommand EditCommand { get; set; }
     protected DbTournamentContext DbContext { get; }
-    public Team? Item { get; set; }
 
     public string TeamName { get; set; }
     public string Country { get; set; }
@@ -30,7 +29,7 @@ public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
     {
         get
         {
-            if (string.IsNullOrEmpty(value: TeamName) || string.IsNullOrEmpty(value: Country))
+            if (string.IsNullOrEmpty(TeamName) || string.IsNullOrEmpty(Country))
                 return false;
             if (DateCreated.Year < 1970 || DateCreated.Year > DateTime.Now.Year)
                 return false;
@@ -41,6 +40,8 @@ public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
             return true;
         }
     }
+
+    public Team? Item { get; set; }
 
     public void SetItem(Team? item)
     {
@@ -53,21 +54,21 @@ public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
         Wins = item.Wins ?? 0;
         Losses = item.Losses ?? 0;
 
-        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
+        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertTeam(teamName: TeamName, country: Country, dateCreated: DateCreated, wins: Wins, losses: Losses);
+        DbContext.InsertTeam(TeamName, Country, DateCreated, Wins, Losses);
 
-        Close(window: obj as EditTeamWindow);
+        Close(obj as EditTeamWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditTeam(teamId: Item.Id, teamName: TeamName, country: Country, dateCreated: DateCreated, wins: Wins, losses: Losses);
+        DbContext.EditTeam(Item.Id, TeamName, Country, DateCreated, Wins, Losses);
 
-        Close(window: obj as EditTeamWindow);
+        Close(obj as EditTeamWindow);
     }
 
     protected void Close(Window? window)

@@ -14,7 +14,7 @@ public partial class EditTeamRosterWindow : Window
         InitializeComponent();
 
         var editTeamRosterViewModel = DataContext as EditTeamRosterViewModel;
-        editTeamRosterViewModel?.SetTeamRoster(item: teamRoster);
+        editTeamRosterViewModel?.SetTeamRoster(teamRoster);
 
         Title = "Add Player to Team";
     }
@@ -23,7 +23,7 @@ public partial class EditTeamRosterWindow : Window
     {
         InitializeComponent();
         var editTeamRosterViewModel = DataContext as EditTeamRosterViewModel;
-        editTeamRosterViewModel?.SetTeam(team: team);
+        editTeamRosterViewModel?.SetTeam(team);
         TeamSelector.Visibility = Visibility.Collapsed;
         Title = "Add Player to Team";
     }

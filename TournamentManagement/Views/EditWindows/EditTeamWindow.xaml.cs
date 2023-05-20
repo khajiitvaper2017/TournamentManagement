@@ -1,21 +1,20 @@
 ﻿using System.Windows;
+using TournamentManagement.Models.Classes;
 using TournamentManagement.ViewModels.EditViewModels;
-using Team = TournamentManagement.Models.Classes.Team;
 
-namespace TournamentManagement.Views.EditWindows
+namespace TournamentManagement.Views.EditWindows;
+
+/// <summary>
+///     Interaction logic for EditTeamWindow.xaml
+/// </summary>
+public partial class EditTeamWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EditTeamWindow.xaml
-    /// </summary>
-    public partial class EditTeamWindow : Window
+    public EditTeamWindow(Team? team = null)
     {
-        public EditTeamWindow(Team? team = null)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            var viewModel = DataContext as EditTeamViewModel;
-            
-            viewModel?.SetItem(item: team);
-        }
+        var viewModel = DataContext as EditTeamViewModel;
+
+        viewModel?.SetItem(team);
     }
 }

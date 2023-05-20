@@ -17,29 +17,29 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
     {
         DbContext = MainViewModel.DbTournamentContext;
 
-        EditCommand = new RelayCommand(execute: InsertItem, canExecute: _ => IsValidData);
-        SelectTeam1Command = new RelayCommand(execute: obj =>
+        EditCommand = new RelayCommand(InsertItem, _ => IsValidData);
+        SelectTeam1Command = new RelayCommand(obj =>
         {
-            var win = new SelectItemWindow(items: DbContext.Teams.Where(predicate: t => t.Id != Team2Id).ToArray(),
-                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team1Id)){Owner = obj as Window };
+            var win = new SelectItemWindow(DbContext.Teams.Where(t => t.Id != Team2Id).ToArray(),
+                DbContext.Teams.FirstOrDefault(t => t.Id == Team1Id)) { Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
 
             Team1Id = (win.ReturnItem as Team)?.Id ?? default(int);
         });
-        SelectTeam2Command = new RelayCommand(execute: obj =>
+        SelectTeam2Command = new RelayCommand(obj =>
         {
-            var win = new SelectItemWindow(items: DbContext.Teams.Where(predicate: t => t.Id != Team1Id).ToArray(),
-                defaultItem: DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team2Id)){Owner = obj as Window };
+            var win = new SelectItemWindow(DbContext.Teams.Where(t => t.Id != Team1Id).ToArray(),
+                DbContext.Teams.FirstOrDefault(t => t.Id == Team2Id)) { Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
             Team2Id = (win.ReturnItem as Team)?.Id ?? default(int);
         });
-        SelectTournamentCommand = new RelayCommand(execute: obj =>
+        SelectTournamentCommand = new RelayCommand(obj =>
         {
-            var win = new SelectItemWindow(items: DbContext.Tournaments.ToArray(),
-                defaultItem: DbContext.Tournaments.FirstOrDefault(predicate: t => t.Id == TournamentId))
-            { Owner = obj as Window };
+            var win = new SelectItemWindow(DbContext.Tournaments.ToArray(),
+                    DbContext.Tournaments.FirstOrDefault(t => t.Id == TournamentId))
+                { Owner = obj as Window };
             win.ShowDialog();
             if (win.DialogResult != true) return;
             TournamentId = (win.ReturnItem as Tournament)?.Id ?? default(int);
@@ -51,19 +51,18 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
     public RelayCommand SelectTeam2Command { get; set; }
     public RelayCommand SelectTournamentCommand { get; set; }
     protected DbTournamentContext DbContext { get; }
-    public Match? Item { get; set; }
-    [AlsoNotifyFor(property: "Team1Name")] public int Team1Id { get; set; }
-    [AlsoNotifyFor(property: "Team2Name")] public int Team2Id { get; set; }
-    [AlsoNotifyFor(property: "TournamentName")] public int TournamentId { get; set; }
+    [AlsoNotifyFor("Team1Name")] public int Team1Id { get; set; }
+    [AlsoNotifyFor("Team2Name")] public int Team2Id { get; set; }
+    [AlsoNotifyFor("TournamentName")] public int TournamentId { get; set; }
 
-    [AlsoNotifyFor(property: "ResultOptions")]
-    public string Team1Name => DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team1Id)?.Name ?? string.Empty;
+    [AlsoNotifyFor("ResultOptions")]
+    public string Team1Name => DbContext.Teams.FirstOrDefault(t => t.Id == Team1Id)?.Name ?? string.Empty;
 
-    [AlsoNotifyFor(property: "ResultOptions")]
-    public string Team2Name => DbContext.Teams.FirstOrDefault(predicate: t => t.Id == Team2Id)?.Name ?? string.Empty;
+    [AlsoNotifyFor("ResultOptions")]
+    public string Team2Name => DbContext.Teams.FirstOrDefault(t => t.Id == Team2Id)?.Name ?? string.Empty;
 
     public string TournamentName =>
-        DbContext.Tournaments.FirstOrDefault(predicate: t => t.Id == TournamentId)?.Name ?? string.Empty;
+        DbContext.Tournaments.FirstOrDefault(t => t.Id == TournamentId)?.Name ?? string.Empty;
 
     public DateTime Date { get; set; } = DateTime.Now;
     public string Result { get; set; }
@@ -80,7 +79,7 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
         "Cache",
         "Train"
     };
-    
+
 
     protected bool IsValidData
     {
@@ -92,13 +91,15 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
             if (DbContext.Tournaments.Find(keyValues: TournamentId)?.StartDate > Date ||
                 DbContext.Tournaments.Find(keyValues: TournamentId)?.EndDate < Date)
                 return false;
-            if (string.IsNullOrEmpty(value: Result))
+            if (string.IsNullOrEmpty(Result))
                 return false;
-            if (string.IsNullOrEmpty(value: Map)) 
+            if (string.IsNullOrEmpty(Map))
                 return false;
             return true;
         }
     }
+
+    public Match? Item { get; set; }
 
     public void SetItem(Match? item)
     {
@@ -112,21 +113,21 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
         Result = item.Result;
         Map = item.Map;
 
-        EditCommand = new RelayCommand(execute: EditItem, canExecute: _ => IsValidData);
+        EditCommand = new RelayCommand(EditItem, _ => IsValidData);
     }
 
     protected void InsertItem(object obj)
     {
-        DbContext.InsertMatch(tournamentId: TournamentId, team1Id: Team1Id, team2Id: Team2Id, matchDate: Date, matchResult: Result, map: Map);
+        DbContext.InsertMatch(TournamentId, Team1Id, Team2Id, Date, Result, Map);
 
-        Close(window: obj as EditMatchWindow);
+        Close(obj as EditMatchWindow);
     }
 
     protected void EditItem(object obj)
     {
-        DbContext.EditMatch(matchId: Item.Id, tournamentId: TournamentId, team1Id: Team1Id, team2Id: Team2Id, matchDate: Date, matchResult: Result, map: Map);
+        DbContext.EditMatch(Item.Id, TournamentId, Team1Id, Team2Id, Date, Result, Map);
 
-        Close(window: obj as EditMatchWindow);
+        Close(obj as EditMatchWindow);
     }
 
     protected void Close(Window? window)

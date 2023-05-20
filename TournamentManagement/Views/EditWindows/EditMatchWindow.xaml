@@ -4,8 +4,7 @@
         xmlns:editViewModels="clr-namespace:TournamentManagement.ViewModels.EditViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Edit Match" Height="550" Width="400" ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        >
+        WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <editViewModels:EditMatchViewModel />
     </Window.DataContext>
@@ -27,8 +26,8 @@
                      Text="{Binding Team1Name, Mode=OneWay}" IsReadOnly="True" />
             <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
                     HorizontalAlignment="Right" Margin="5" Content="Select Team 1"
-                    Command="{Binding SelectTeam1Command}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                    Command="{Binding SelectTeam1Command}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBox materialDesign:HintAssist.Hint="Team 2" Width="215"
@@ -36,8 +35,8 @@
                      Text="{Binding Team2Name, Mode=OneWay}" IsReadOnly="True" />
             <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
                     HorizontalAlignment="Right" Margin="5" Content="Select Team 2"
-                    Command="{Binding SelectTeam2Command}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                    Command="{Binding SelectTeam2Command}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBox materialDesign:HintAssist.Hint="Tournament" Width="185"
@@ -45,8 +44,8 @@
                      Text="{Binding TournamentName, Mode=OneWay}" IsReadOnly="True" />
             <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton }"
                     HorizontalAlignment="Right" Margin="5" Content="Select Tournament"
-                    Command="{Binding SelectTournamentCommand}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                    Command="{Binding SelectTournamentCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
         </StackPanel>
         <!-- <TextBox materialDesign:HintAssist.Hint="Result" Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedTextBox}" Margin="5" Text="{Binding Result}" /> -->
         <ComboBox Grid.Row="3" Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="5"

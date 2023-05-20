@@ -18,18 +18,19 @@
             <Button Margin="10" Content="Teams" Command="{Binding OpenTeamViewCommand}" />
             <Button Margin="10" Content="Tournaments" Command="{Binding OpenTournamentViewCommand}" />
 
-            <Button Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                    Margin="10" Grid.Row="1" Content="Players" Command="{Binding OpenPlayerViewCommand}" />
             <Button Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="10" Grid.Row="3" Content="Matches" Command="{Binding OpenMatchViewCommand}" />
+                    Margin="10" Content="Players" Command="{Binding OpenPlayerViewCommand}" />
             <Button Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="10" Grid.Row="4" Content="Team Rosters" Command="{Binding OpenTeamRosterViewCommand}" />
+                    Margin="10" Content="Matches" Command="{Binding OpenMatchViewCommand}" />
+            <Button Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Margin="10" Content="Team Rosters" Command="{Binding OpenTeamRosterViewCommand}" />
 
         </StackPanel>
         <StatusBar Grid.Row="2" HorizontalAlignment="Stretch" Style="{DynamicResource MaterialDesignStatusBar}">
             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding OpenSettingsViewCommand}" Content="Settings" />
-            <CheckBox Style="{DynamicResource MaterialDesignCheckBox}" Content="Show All Tables" IsChecked="{Binding IsShowAllTables, Mode=TwoWay}" />
+            <CheckBox Style="{DynamicResource MaterialDesignCheckBox}" Content="Show All Tables"
+                      IsChecked="{Binding IsShowAllTables, Mode=TwoWay}" />
         </StatusBar>
     </Grid>
 </Window>

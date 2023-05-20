@@ -38,7 +38,7 @@
             <DataGrid.InputBindings>
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
-                    Command="{Binding ViewTeamRosterCommand}"/>
+                    Command="{Binding ViewTeamRosterCommand}" />
             </DataGrid.InputBindings>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">

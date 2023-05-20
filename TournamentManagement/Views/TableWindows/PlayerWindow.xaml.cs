@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 
-namespace TournamentManagement.Views.TableWindows
+namespace TournamentManagement.Views.TableWindows;
+
+/// <summary>
+///     Interaction logic for PlayerWindow.xaml
+/// </summary>
+public partial class PlayerWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for PlayerWindow.xaml
-    /// </summary>
-    public partial class PlayerWindow : Window
+    public PlayerWindow()
     {
-        public PlayerWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

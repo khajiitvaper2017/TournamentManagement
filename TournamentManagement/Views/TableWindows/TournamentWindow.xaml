@@ -35,7 +35,7 @@
             <DataGrid.InputBindings>
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
-                    Command="{Binding ViewMatchCommand}"/>
+                    Command="{Binding ViewMatchCommand}" />
             </DataGrid.InputBindings>
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

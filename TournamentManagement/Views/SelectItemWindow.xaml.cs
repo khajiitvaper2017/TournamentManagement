@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using TournamentManagement.Models.Interfaces;
 using TournamentManagement.ViewModels;
-using TournamentManagement.ViewModels.EditViewModels;
 
 namespace TournamentManagement.Views;
 
@@ -13,7 +12,6 @@ namespace TournamentManagement.Views;
 /// </summary>
 public partial class SelectItemWindow : Window
 {
-    public int ItemsCount => (DataContext as SelectItemViewModel)?.Items.Count ?? 0;
     public SelectItemWindow(ICollection<IDbItem> items, IDbItem? defaultItem = null)
     {
         InitializeComponent();
@@ -23,9 +21,12 @@ public partial class SelectItemWindow : Window
         viewModel.ItemType = items.GetType().GetElementType();
         Title = $"Select {viewModel.ItemType.Name}";
 
-        viewModel.Items = new ObservableCollection<IDbItem>(collection: items);
-        viewModel.SelectedItem = defaultItem == null ? null : viewModel.Items.FirstOrDefault(predicate: i => i.Id == defaultItem.Id);
+        viewModel.Items = new ObservableCollection<IDbItem>(items);
+        viewModel.SelectedItem =
+            defaultItem == null ? null : viewModel.Items.FirstOrDefault(i => i.Id == defaultItem.Id);
     }
-    
+
+    public int ItemsCount => (DataContext as SelectItemViewModel)?.Items.Count ?? 0;
+
     public IDbItem ReturnItem { get; set; }
 }

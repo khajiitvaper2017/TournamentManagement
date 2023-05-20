@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TournamentManagement.Models.Classes;
+using TournamentManagement.Properties;
 
 namespace TournamentManagement.Models.DbContext;
 
@@ -12,15 +13,16 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
 {
     public DbTournamentContext()
     {
-        ConnectionString = Properties.Settings.Default.ConnectionString;
+        ConnectionString = Settings.Default.ConnectionString;
     }
+
     public DbTournamentContext(string connectionString)
     {
         ConnectionString = connectionString;
     }
 
     public DbTournamentContext(DbContextOptions<DbTournamentContext> options)
-        : base(options: options)
+        : base(options)
     {
     }
 
@@ -39,154 +41,154 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(connectionString: ConnectionString);
-        optionsBuilder.LogTo(action: message => Debug.WriteLine(message: message), minimumLevel: LogLevel.Warning);
+        optionsBuilder.UseSqlServer(ConnectionString);
+        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Warning);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Match>(buildAction: entity =>
+        modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(keyExpression: e => e.Id).HasName(name: "PK__matches__9D7FCBA378FC71D5");
+            entity.HasKey(e => e.Id).HasName("PK__matches__9D7FCBA378FC71D5");
 
-            entity.ToTable(name: "matches");
+            entity.ToTable("matches");
 
-            entity.Property(propertyExpression: e => e.Id).HasColumnName(name: "match_id");
-            entity.Property(propertyExpression: e => e.Date)
-                .HasColumnType(typeName: "date")
-                .HasColumnName(name: "match_date");
-            entity.Property(propertyExpression: e => e.Result)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "match_result");
-            entity.Property(propertyExpression: e => e.Map)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "match_map");
-            entity.Property(propertyExpression: e => e.Team1Id).HasColumnName(name: "team1_id");
-            entity.Property(propertyExpression: e => e.Team2Id).HasColumnName(name: "team2_id");
-            entity.Property(propertyExpression: e => e.TournamentId).HasColumnName(name: "tournament_id");
+            entity.Property(e => e.Id).HasColumnName("match_id");
+            entity.Property(e => e.Date)
+                .HasColumnType("date")
+                .HasColumnName("match_date");
+            entity.Property(e => e.Result)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("match_result");
+            entity.Property(e => e.Map)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("match_map");
+            entity.Property(e => e.Team1Id).HasColumnName("team1_id");
+            entity.Property(e => e.Team2Id).HasColumnName("team2_id");
+            entity.Property(e => e.TournamentId).HasColumnName("tournament_id");
 
-            entity.HasOne(navigationExpression: d => d.Team1).WithMany(navigationExpression: p => p.MatchTeam1s)
-                .HasForeignKey(foreignKeyExpression: d => d.Team1Id)
-                .HasConstraintName(name: "FK__matches__team1_i__5441852A");
+            entity.HasOne(d => d.Team1).WithMany(p => p.MatchTeam1s)
+                .HasForeignKey(d => d.Team1Id)
+                .HasConstraintName("FK__matches__team1_i__5441852A");
 
-            entity.HasOne(navigationExpression: d => d.Team2).WithMany(navigationExpression: p => p.MatchTeam2s)
-                .HasForeignKey(foreignKeyExpression: d => d.Team2Id)
-                .HasConstraintName(name: "FK__matches__team2_i__5535A963");
+            entity.HasOne(d => d.Team2).WithMany(p => p.MatchTeam2s)
+                .HasForeignKey(d => d.Team2Id)
+                .HasConstraintName("FK__matches__team2_i__5535A963");
 
-            entity.HasOne(navigationExpression: d => d.Tournament).WithMany(navigationExpression: p => p.Matches)
-                .HasForeignKey(foreignKeyExpression: d => d.TournamentId)
-                .OnDelete(deleteBehavior: DeleteBehavior.Cascade)
-                .HasConstraintName(name: "FK__matches__tournam__534D60F1");
+            entity.HasOne(d => d.Tournament).WithMany(p => p.Matches)
+                .HasForeignKey(d => d.TournamentId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__matches__tournam__534D60F1");
         });
 
-        modelBuilder.Entity<Player>(buildAction: entity =>
+        modelBuilder.Entity<Player>(entity =>
         {
-            entity.HasKey(keyExpression: e => e.Id).HasName(name: "PK__players__44DA120C44FD3582");
+            entity.HasKey(e => e.Id).HasName("PK__players__44DA120C44FD3582");
 
-            entity.ToTable(name: "players");
+            entity.ToTable("players");
 
-            entity.Property(propertyExpression: e => e.Id).HasColumnName(name: "player_id");
-            entity.Property(propertyExpression: e => e.Country)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "country");
-            entity.Property(propertyExpression: e => e.DateOfBirth)
-                .HasColumnType(typeName: "date")
-                .HasColumnName(name: "date_of_birth");
-            entity.Property(propertyExpression: e => e.FirstName)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "first_name");
-            entity.Property(propertyExpression: e => e.LastName)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "last_name");
-            entity.Property(propertyExpression: e => e.Nickname)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "nickname");
+            entity.Property(e => e.Id).HasColumnName("player_id");
+            entity.Property(e => e.Country)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("country");
+            entity.Property(e => e.DateOfBirth)
+                .HasColumnType("date")
+                .HasColumnName("date_of_birth");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("first_name");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("last_name");
+            entity.Property(e => e.Nickname)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("nickname");
         });
 
-        modelBuilder.Entity<Team>(buildAction: entity =>
+        modelBuilder.Entity<Team>(entity =>
         {
-            entity.HasKey(keyExpression: e => e.Id).HasName(name: "PK__teams__F82DEDBCF42A31B6");
+            entity.HasKey(e => e.Id).HasName("PK__teams__F82DEDBCF42A31B6");
 
-            entity.ToTable(name: "teams", buildAction: tb => tb.HasTrigger(modelName: "delete_matches_on_team_delete"));
+            entity.ToTable("teams", tb => tb.HasTrigger("delete_matches_on_team_delete"));
 
-            entity.Property(propertyExpression: e => e.Id).HasColumnName(name: "team_id");
-            entity.Property(propertyExpression: e => e.Country)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "country");
-            entity.Property(propertyExpression: e => e.DateCreated)
-                .HasColumnType(typeName: "date")
-                .HasColumnName(name: "date_created");
-            entity.Property(propertyExpression: e => e.Losses).HasColumnName(name: "losses");
-            entity.Property(propertyExpression: e => e.Name)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "team_name");
-            entity.Property(propertyExpression: e => e.Wins).HasColumnName(name: "wins");
+            entity.Property(e => e.Id).HasColumnName("team_id");
+            entity.Property(e => e.Country)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("country");
+            entity.Property(e => e.DateCreated)
+                .HasColumnType("date")
+                .HasColumnName("date_created");
+            entity.Property(e => e.Losses).HasColumnName("losses");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("team_name");
+            entity.Property(e => e.Wins).HasColumnName("wins");
         });
 
-        modelBuilder.Entity<TeamRoster>(buildAction: entity =>
+        modelBuilder.Entity<TeamRoster>(entity =>
         {
-            entity.HasKey(keyExpression: e => e.Id).HasName(name: "PK__team_ros__B16836095094F503");
+            entity.HasKey(e => e.Id).HasName("PK__team_ros__B16836095094F503");
 
-            entity.ToTable(name: "team_roster");
+            entity.ToTable("team_roster");
 
-            entity.Property(propertyExpression: e => e.Id).HasColumnName(name: "roster_id");
-            entity.Property(propertyExpression: e => e.PlayerId).HasColumnName(name: "player_id");
-            entity.Property(propertyExpression: e => e.PlayerPosition)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "player_position");
-            entity.Property(propertyExpression: e => e.TeamId).HasColumnName(name: "team_id");
+            entity.Property(e => e.Id).HasColumnName("roster_id");
+            entity.Property(e => e.PlayerId).HasColumnName("player_id");
+            entity.Property(e => e.PlayerPosition)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("player_position");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
 
-            entity.HasOne(navigationExpression: d => d.Player).WithMany(navigationExpression: p => p.TeamRosters)
-                .HasForeignKey(foreignKeyExpression: d => d.PlayerId)
-                .OnDelete(deleteBehavior: DeleteBehavior.Cascade)
-                .HasConstraintName(name: "FK__team_rost__playe__5070F446");
+            entity.HasOne(d => d.Player).WithMany(p => p.TeamRosters)
+                .HasForeignKey(d => d.PlayerId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__team_rost__playe__5070F446");
 
-            entity.HasOne(navigationExpression: d => d.Team).WithMany(navigationExpression: p => p.TeamRosters)
-                .HasForeignKey(foreignKeyExpression: d => d.TeamId)
-                .OnDelete(deleteBehavior: DeleteBehavior.Cascade)
-                .HasConstraintName(name: "FK__team_rost__team___4F7CD00D");
+            entity.HasOne(d => d.Team).WithMany(p => p.TeamRosters)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__team_rost__team___4F7CD00D");
         });
 
-        modelBuilder.Entity<Tournament>(buildAction: entity =>
+        modelBuilder.Entity<Tournament>(entity =>
         {
-            entity.HasKey(keyExpression: e => e.Id).HasName(name: "PK__tourname__B93AA09D360E5272");
+            entity.HasKey(e => e.Id).HasName("PK__tourname__B93AA09D360E5272");
 
-            entity.ToTable(name: "tournaments");
+            entity.ToTable("tournaments");
 
-            entity.Property(propertyExpression: e => e.Id).HasColumnName(name: "tournament_id");
-            entity.Property(propertyExpression: e => e.EndDate)
-                .HasColumnType(typeName: "date")
-                .HasColumnName(name: "end_date");
-            entity.Property(propertyExpression: e => e.Location)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "location");
-            entity.Property(propertyExpression: e => e.StartDate)
-                .HasColumnType(typeName: "date")
-                .HasColumnName(name: "start_date");
-            entity.Property(propertyExpression: e => e.Name)
-                .HasMaxLength(maxLength: 50)
-                .IsUnicode(unicode: false)
-                .HasColumnName(name: "tournament_name");
+            entity.Property(e => e.Id).HasColumnName("tournament_id");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("date")
+                .HasColumnName("end_date");
+            entity.Property(e => e.Location)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("location");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("date")
+                .HasColumnName("start_date");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("tournament_name");
         });
 
-        OnModelCreatingPartial(modelBuilder: modelBuilder);
+        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
     public void InsertTeam(string teamName, string country, DateTime dateCreated, int wins, int losses)
     {
-        Teams.Add(entity: new Team
+        Teams.Add(new Team
         {
             Name = teamName,
             Country = country,
@@ -215,17 +217,17 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
         var team = Teams.Find(keyValues: teamId);
         if (team == null) return;
 
-        Matches.RemoveRange(entities: Matches.Where(predicate: m => m.Team1Id == teamId || m.Team2Id == teamId));
-        TeamRosters.RemoveRange(entities: TeamRosters.Where(predicate: tr => tr.TeamId == teamId));
+        Matches.RemoveRange(Matches.Where(m => m.Team1Id == teamId || m.Team2Id == teamId));
+        TeamRosters.RemoveRange(TeamRosters.Where(tr => tr.TeamId == teamId));
 
-        Teams.Remove(entity: team);
+        Teams.Remove(team);
 
         SaveChanges();
     }
 
     public void InsertPlayer(string firstName, string lastName, string nickname, string country, DateTime dateOfBirth)
     {
-        Players.Add(entity: new Player
+        Players.Add(new Player
         {
             FirstName = firstName,
             LastName = lastName,
@@ -253,14 +255,14 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var player = Players.Find(keyValues: playerId);
         if (player == null) return;
-        TeamRosters.RemoveRange(entities: TeamRosters.Where(predicate: tr => tr.PlayerId == playerId));
-        Players.Remove(entity: player);
+        TeamRosters.RemoveRange(TeamRosters.Where(tr => tr.PlayerId == playerId));
+        Players.Remove(player);
         SaveChanges();
     }
 
     public void InsertTournament(string tournamentName, DateTime startDate, DateTime endDate, string location)
     {
-        Tournaments.Add(entity: new Tournament
+        Tournaments.Add(new Tournament
         {
             Name = tournamentName,
             StartDate = startDate,
@@ -286,16 +288,16 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var tournament = Tournaments.Find(keyValues: tournamentId);
         if (tournament == null) return;
-        Matches.RemoveRange(entities: Matches.Where(predicate: m => m.TournamentId == tournamentId));
-        Tournaments.Remove(entity: tournament);
+        Matches.RemoveRange(Matches.Where(m => m.TournamentId == tournamentId));
+        Tournaments.Remove(tournament);
         SaveChanges();
     }
 
     public void InsertTeamRoster(int playerId, int teamId, string playerPosition)
     {
-        if(TeamRosters.Any(predicate: tr => tr.PlayerId == playerId)) return;
+        if (TeamRosters.Any(tr => tr.PlayerId == playerId)) return;
 
-        TeamRosters.Add(entity: new TeamRoster
+        TeamRosters.Add(new TeamRoster
         {
             TeamId = teamId,
             PlayerId = playerId,
@@ -318,13 +320,14 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var roster = TeamRosters.Find(keyValues: rosterId);
         if (roster == null) return;
-        TeamRosters.Remove(entity: roster);
+        TeamRosters.Remove(roster);
         SaveChanges();
     }
 
-    public void InsertMatch(int tournamentId, int team1Id, int team2Id, DateTime matchDate, string matchResult, string map)
+    public void InsertMatch(int tournamentId, int team1Id, int team2Id, DateTime matchDate, string matchResult,
+        string map)
     {
-        Matches.Add(entity: new Match
+        Matches.Add(new Match
         {
             TournamentId = tournamentId,
             Team1Id = team1Id,
@@ -354,7 +357,7 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var match = Matches.Find(keyValues: matchId);
         if (match == null) return;
-        Matches.Remove(entity: match);
+        Matches.Remove(match);
         SaveChanges();
     }
 }

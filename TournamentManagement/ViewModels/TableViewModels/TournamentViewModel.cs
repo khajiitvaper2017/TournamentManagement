@@ -6,19 +6,19 @@ namespace TournamentManagement.ViewModels.TableViewModels;
 
 public class TournamentViewModel : TableViewModel<Tournament>
 {
-    public TournamentViewModel() : base(items: MainViewModel.Tournaments,
-        addCommand: new RelayCommand(execute: _ => { new EditTournamentWindow().ShowDialog(); }),
-        deleteCommand: new RelayCommand(execute: _ => { MainViewModel.DbTournamentContext.DeleteTournament(tournamentId: SelectedItem.Id); },
-            canExecute: _ => SelectedItem != null),
-        editCommand: new RelayCommand(execute: _ => { new EditTournamentWindow(tournament: SelectedItem).ShowDialog(); },
-            canExecute: _ => SelectedItem != null)
+    public TournamentViewModel() : base(MainViewModel.Tournaments,
+        new RelayCommand(_ => { new EditTournamentWindow().ShowDialog(); }),
+        new RelayCommand(_ => { MainViewModel.DbTournamentContext.DeleteTournament(SelectedItem.Id); },
+            _ => SelectedItem != null),
+        new RelayCommand(_ => { new EditTournamentWindow(SelectedItem).ShowDialog(); },
+            _ => SelectedItem != null)
     )
     {
-        ViewMatchCommand = new RelayCommand(execute: _ =>
+        ViewMatchCommand = new RelayCommand(_ =>
         {
-            var win = new MatchWindow(tournament: SelectedItem);
+            var win = new MatchWindow(SelectedItem);
             win.ShowDialog();
-        }, canExecute: _ => SelectedItem != null);
+        }, _ => SelectedItem != null);
     }
 
     public RelayCommand ViewMatchCommand { get; set; }

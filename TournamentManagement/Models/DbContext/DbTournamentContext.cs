@@ -358,12 +358,35 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var match = Matches.Find(keyValues: matchId);
         if (match == null) return;
+
+        if (match.Result == $"{match.Team1.Name} Win")
+        {
+            match.Team1.Wins--;
+            match.Team2.Losses--;
+        }
+        else if (match.Result == $"{match.Team2.Name} Win")
+        {
+            match.Team2.Wins--;
+            match.Team1.Losses--;
+        }
+
         match.TournamentId = tournamentId;
         match.Team1Id = team1Id;
         match.Team2Id = team2Id;
         match.Date = matchDate;
         match.Result = matchResult;
         match.Map = map;
+
+        if (matchResult == $"{match.Team1.Name} Win")
+        {
+            match.Team1.Wins++;
+            match.Team2.Losses++;
+        }
+        else if (matchResult == $"{match.Team2.Name} Win")
+        {
+            match.Team2.Wins++;
+            match.Team1.Losses++;
+        }
         SaveChanges();
     }
 
@@ -371,6 +394,18 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
     {
         var match = Matches.Find(keyValues: matchId);
         if (match == null) return;
+
+        if (match.Result == $"{match.Team1.Name} Win")
+        {
+            match.Team1.Wins--;
+            match.Team2.Losses--;
+        }
+        else if (match.Result == $"{match.Team2.Name} Win")
+        {
+            match.Team2.Wins--;
+            match.Team1.Losses--;
+        }
+
         Matches.Remove(match);
         SaveChanges();
     }

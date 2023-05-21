@@ -336,6 +336,20 @@ public partial class DbTournamentContext : Microsoft.EntityFrameworkCore.DbConte
             Result = matchResult,
             Map = map
         });
+
+        var team1 = Teams.Find(keyValues: team1Id);
+        var team2 = Teams.Find(keyValues: team2Id);
+
+        if (matchResult == $"{team1.Name} Win")
+        {
+            team1.Wins++;
+            team2.Losses++;
+        }
+        else if (matchResult == $"{team2.Name} Win")
+        {
+            team2.Wins++;
+            team1.Losses++;
+        }
         SaveChanges();
     }
 

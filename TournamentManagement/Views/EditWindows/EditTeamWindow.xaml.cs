@@ -14,7 +14,9 @@ public partial class EditTeamWindow : Window
         InitializeComponent();
 
         var viewModel = DataContext as EditTeamViewModel;
+        if(team == null) return;
 
         viewModel?.SetItem(team);
+        Title = "Edit Team";
     }
 }

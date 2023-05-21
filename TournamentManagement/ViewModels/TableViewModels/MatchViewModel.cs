@@ -1,6 +1,8 @@
-﻿using TournamentManagement.Models.Classes;
+﻿using System.Linq;
+using TournamentManagement.Models.Classes;
 using TournamentManagement.ViewModels.EditViewModels;
 using TournamentManagement.Views.EditWindows;
+using TournamentManagement.Views.TableWindows;
 
 namespace TournamentManagement.ViewModels.TableViewModels;
 
@@ -11,7 +13,7 @@ public class MatchViewModel : TableViewModel<Match>
         {
             var emw = new EditMatchWindow();
             var dataContext = emw.DataContext as EditMatchViewModel;
-            dataContext!.TournamentId = SelectedItem.TournamentId ?? 0;
+            dataContext!.TournamentId = Items.FirstOrDefault()?.TournamentId ?? 0;
             emw.ShowDialog();
         }),
         new RelayCommand(_ => { MainViewModel.DbTournamentContext.DeleteMatch(SelectedItem.Id); },
@@ -20,5 +22,21 @@ public class MatchViewModel : TableViewModel<Match>
             _ => SelectedItem != null)
     )
     {
+        ViewTeam1RosterCommand = new RelayCommand(_ =>
+        {
+            var team = MainViewModel.DbTournamentContext.Teams.Find(SelectedItem.Team1Id);
+            var teamRoster = new TeamRosterWindow(team);
+            teamRoster.ShowDialog();
+        }, _ => SelectedItem != null);
+
+        ViewTeam2RosterCommand = new RelayCommand(_ =>
+        {
+            var team = MainViewModel.DbTournamentContext.Teams.Find(SelectedItem.Team2Id);
+            var teamRoster = new TeamRosterWindow(team);
+            teamRoster.ShowDialog();
+        }, _ => SelectedItem != null);
     }
+
+    public RelayCommand ViewTeam1RosterCommand { get; set; }
+    public RelayCommand ViewTeam2RosterCommand { get; set; }
 }

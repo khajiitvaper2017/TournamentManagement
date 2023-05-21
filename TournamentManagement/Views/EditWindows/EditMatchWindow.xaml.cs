@@ -16,5 +16,8 @@ public partial class EditMatchWindow : Window
         if (match == null) return;
         var viewModel = DataContext as EditMatchViewModel;
         viewModel?.SetItem(match);
+        if(viewModel.TournamentId != 0)
+            TounamentSelector.Visibility = Visibility.Collapsed;
+        Title = "Edit Match";
     }
 }

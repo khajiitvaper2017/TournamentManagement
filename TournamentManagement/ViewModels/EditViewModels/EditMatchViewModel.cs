@@ -53,7 +53,7 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
     protected DbTournamentContext DbContext { get; }
     [AlsoNotifyFor("Team1Name")] public int Team1Id { get; set; }
     [AlsoNotifyFor("Team2Name")] public int Team2Id { get; set; }
-    [AlsoNotifyFor("TournamentName")] public int TournamentId { get; set; }
+    [AlsoNotifyFor("TournamentName", "DateStart")] public int TournamentId { get; set; }
 
     [AlsoNotifyFor("ResultOptions")]
     public string Team1Name => DbContext.Teams.FirstOrDefault(t => t.Id == Team1Id)?.Name ?? string.Empty;
@@ -64,9 +64,20 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
     public string TournamentName =>
         DbContext.Tournaments.FirstOrDefault(t => t.Id == TournamentId)?.Name ?? string.Empty;
 
-    public DateTime Date { get; set; } = DateTime.Now;
     public string Result { get; set; }
     public string Map { get; set; }
+    public DateTime Date { get; set; }
+    public DateTime DateStart
+    {
+        get
+        {
+            var date = DbContext.Tournaments.Find(keyValues: TournamentId)?.StartDate ?? DateTime.Now;
+            Date = date;
+            return date;
+        }
+    }
+    public DateTime DateEnd => DbContext.Tournaments.Find(keyValues: TournamentId)?.EndDate ?? DateTime.Now;
+
     public ObservableCollection<string> ResultOptions => new() { $"{Team1Name} Win", $"{Team2Name} Win" };
 
     public ObservableCollection<string> MapOptions => new()
@@ -132,6 +143,7 @@ public partial class EditMatchViewModel : INotifyPropertyChanged, IItem<Match>
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

@@ -15,6 +15,9 @@ public partial class EditPlayerWindow : Window
 
         var viewModel = DataContext as EditPlayerViewModel;
 
+        if (player == null) return;
+
         viewModel?.SetItem(player);
+        Title = "Edit Player";
     }
 }

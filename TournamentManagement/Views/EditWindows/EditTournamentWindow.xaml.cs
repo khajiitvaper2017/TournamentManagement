@@ -14,7 +14,8 @@ public partial class EditTournamentWindow : Window
         InitializeComponent();
 
         var viewModel = DataContext as EditTournamentViewModel;
-
+        if(tournament == null) return;
         viewModel?.SetItem(tournament);
+        Title = "Edit Tournament";
     }
 }

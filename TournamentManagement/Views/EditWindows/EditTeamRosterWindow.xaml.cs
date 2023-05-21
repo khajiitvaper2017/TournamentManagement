@@ -16,7 +16,7 @@ public partial class EditTeamRosterWindow : Window
         var editTeamRosterViewModel = DataContext as EditTeamRosterViewModel;
         editTeamRosterViewModel?.SetTeamRoster(teamRoster);
 
-        Title = "Add Player to Team";
+        Title = "Change Role of Player";
     }
 
     public EditTeamRosterWindow(Team team)

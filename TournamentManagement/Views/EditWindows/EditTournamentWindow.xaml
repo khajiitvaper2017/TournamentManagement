@@ -23,6 +23,6 @@
                  Style="{DynamicResource MaterialDesignOutlinedTextBox}" Grid.Row="1" Text="{Binding Location}" />
         <DatePicker Margin="10" Grid.Row="2" SelectedDate="{Binding StartDate}" />
         <DatePicker Margin="10" Grid.Row="3" SelectedDate="{Binding EndDate}" />
-        <Button Grid.Row="5" Content="Save" Command="{Binding EditCommand}" />
+        <Button Grid.Row="5" Content="Save" Command="{Binding EditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
     </Grid>
 </Window>

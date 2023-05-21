@@ -73,6 +73,7 @@ public partial class EditTeamViewModel : INotifyPropertyChanged, IItem<Team>
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

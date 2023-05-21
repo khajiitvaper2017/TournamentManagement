@@ -104,6 +104,7 @@ public partial class EditTeamRosterViewModel : INotifyPropertyChanged, IItem<Tea
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

@@ -26,6 +26,8 @@
                 <ContextMenu>
                     <MenuItem Header="Edit Match" Command="{Binding EditCommand}" />
                     <MenuItem Header="Remove Match" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="View Team 1 Roster" Command="{Binding ViewTeam1RosterCommand}" />
+                    <MenuItem Header="View Team 2 Roster" Command="{Binding ViewTeam2RosterCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

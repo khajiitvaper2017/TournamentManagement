@@ -38,7 +38,7 @@
                     Command="{Binding SelectTeam2Command}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Name="TounamentSelector" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBox materialDesign:HintAssist.Hint="Tournament" Width="185"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Stretch" Margin="5"
                      Text="{Binding TournamentName, Mode=OneWay}" IsReadOnly="True" />
@@ -53,8 +53,12 @@
         <ComboBox Grid.Row="4" Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="5"
                   ItemsSource="{Binding MapOptions}" SelectedItem="{Binding Map}" />
         <DatePicker Grid.Row="5" Style="{DynamicResource MaterialDesignDatePicker}" Margin="5"
-                    SelectedDate="{Binding Date}" />
+                    SelectedDate="{Binding Date}" 
+                    DisplayDate="{Binding Date, Mode=OneWay}"
+                    DisplayDateStart="{Binding DateStart, Mode=OneWay}" 
+                    DisplayDateEnd="{Binding DateEnd, Mode=OneWay}" />
+        
         <Button Height="48" Style="{DynamicResource MaterialDesignOutlinedLightButton}" Grid.Row="8" Content="Save"
-                Command="{Binding EditCommand}" />
+                Command="{Binding EditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
     </Grid>
 </Window>

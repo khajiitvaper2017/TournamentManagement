@@ -27,6 +27,7 @@ public abstract partial class EditViewModel<T> : INotifyPropertyChanged where T 
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

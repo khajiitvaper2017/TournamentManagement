@@ -66,6 +66,7 @@ public partial class EditTournamentViewModel : INotifyPropertyChanged, IItem<Tou
 
     protected void Close(Window? window)
     {
+        window.DialogResult = true;
         window?.Close();
     }
 }

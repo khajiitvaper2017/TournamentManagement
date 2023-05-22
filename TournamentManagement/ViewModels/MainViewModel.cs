@@ -25,7 +25,6 @@ public partial class MainViewModel : INotifyPropertyChanged
 
     public static bool IsConnected { get; set; }
     public bool IsShowAllTables { get; set; }
-    public static string StatusText { get; set; }
     public static DbTournamentContext DbTournamentContext { get; set; }
 
     public static ObservableCollection<Team> Teams { get; set; }
@@ -49,7 +48,6 @@ public partial class MainViewModel : INotifyPropertyChanged
     {
         DbTournamentContext = new DbTournamentContext(connectionString);
         IsConnected = DbTournamentContext.Database.CanConnect();
-        StatusText = IsConnected ? "Successfully connected to database." : "Failed to connect to database.";
         if (!IsConnected) return;
 
         DbTournamentContext.Teams.Load();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using TournamentManagement.Models.Interfaces;
 
 namespace TournamentManagement.Models.Classes;
@@ -25,11 +24,11 @@ public partial class Team : IDbItem, INotifyPropertyChanged
     public int? Wins { get; set; }
 
     public int? Losses { get; set; }
-    
+
     public virtual ICollection<Match> Matches1 { get; set; }
-    
+
     public virtual ICollection<Match> Matches2 { get; set; }
-    
+
     public virtual ICollection<TeamRoster> TeamRoster { get; set; }
 
     [Column("team_id")] [Key] public int Id { get; set; }

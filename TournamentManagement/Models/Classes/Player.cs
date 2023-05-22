@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using TournamentManagement.Models.Interfaces;
 
 namespace TournamentManagement.Models.Classes;
@@ -29,7 +28,7 @@ public partial class Player : IDbItem, INotifyPropertyChanged
 
     [Column("date_of_birth", TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
-    
+
     public virtual ICollection<TeamRoster> TeamRoster { get; set; }
 
     [Column("player_id")] [Key] public int Id { get; set; }

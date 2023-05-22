@@ -10,7 +10,6 @@ namespace TournamentManagement.Models.Classes;
 
 public partial class Player : IDbItem, INotifyPropertyChanged
 {
-    [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public Player()
     {
         TeamRoster = new HashSet<TeamRoster>();
@@ -30,8 +29,7 @@ public partial class Player : IDbItem, INotifyPropertyChanged
 
     [Column("date_of_birth", TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
-
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    
     public virtual ICollection<TeamRoster> TeamRoster { get; set; }
 
     [Column("player_id")] [Key] public int Id { get; set; }

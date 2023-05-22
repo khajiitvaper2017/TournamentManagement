@@ -10,7 +10,6 @@ namespace TournamentManagement.Models.Classes;
 
 public partial class Tournament : IDbItem, INotifyPropertyChanged
 {
-    [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public Tournament()
     {
         Matches = new HashSet<Match>();
@@ -23,8 +22,7 @@ public partial class Tournament : IDbItem, INotifyPropertyChanged
     public DateTime? EndDate { get; set; }
 
     [StringLength(50)] public string Location { get; set; }
-
-    [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    
     public virtual ICollection<Match> Matches { get; set; }
 
     [Column("tournament_id")] [Key] public int Id { get; set; }

@@ -6,30 +6,33 @@ using TournamentManagement.Properties;
 
 namespace TournamentManagement.Models.DbContext;
 
-public class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContext
+public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public DbTournamentContext()
     {
         ConnectionString = Settings.Default.ConnectionString;
+        Database.EnsureCreated();
     }
 
     public DbTournamentContext(string connectionString)
     {
         ConnectionString = connectionString;
+        Database.EnsureCreated();
     }
 
     public DbTournamentContext(DbContextOptions<DbTournamentContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public string ConnectionString { get; set; }
 
-    public virtual DbSet<Match> Matches { get; set; }
-    public virtual DbSet<Player> Players { get; set; }
-    public virtual DbSet<TeamRoster> TeamRosters { get; set; }
-    public virtual DbSet<Team> Teams { get; set; }
-    public virtual DbSet<Tournament> Tournaments { get; set; }
+    public DbSet<Match> Matches { get; set; }
+    public DbSet<Player> Players { get; set; }
+    public DbSet<TeamRoster> TeamRosters { get; set; }
+    public DbSet<Team> Teams { get; set; }
+    public DbSet<Tournament> Tournaments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -108,9 +111,13 @@ public class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContext
             .HasMany(e => e.Matches)
             .WithOne(e => e.Tournament)
             .OnDelete(DeleteBehavior.Cascade);
+
+        OnModelCreatingPartial(modelBuilder);
     }
 
-
+    public void OnModelCreatingPartial(ModelBuilder modelBuilder)
+    {
+    }
     public void InsertTeam(string teamName, string country, DateTime dateCreated, int wins, int losses)
     {
         Teams.Add(new Team

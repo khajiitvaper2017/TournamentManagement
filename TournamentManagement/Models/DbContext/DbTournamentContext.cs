@@ -10,24 +10,16 @@ namespace TournamentManagement.Models.DbContext;
 
 public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    public DbTournamentContext()
-    {
-        ConnectionString = Settings.Default.ConnectionString;
-        Database.EnsureCreated();
-    }
-
     public DbTournamentContext(string connectionString)
     {
         ConnectionString = connectionString;
         Database.EnsureCreated();
 
         Database.AutoSavepointsEnabled = true;
-    }
 
-    public DbTournamentContext(DbContextOptions<DbTournamentContext> options)
-        : base(options)
-    {
-        Database.EnsureCreated();
+        if (Matches.Any() || Players.Any() || Teams.Any() || Tournaments.Any() || TeamRosters.Any()) return;
+
+        Database.ExecuteSqlRaw(GetSeedData());
     }
 
     public string ConnectionString { get; set; }
@@ -37,6 +29,11 @@ public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContex
     public DbSet<TeamRoster> TeamRosters { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<Tournament> Tournaments { get; set; }
+
+    private string GetSeedData()
+    {
+        return Resources.FillDataScript;
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -123,6 +120,7 @@ public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContex
     public void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
     }
+
     public void InsertTeam(string teamName, string country, DateTime dateCreated, int wins, int losses)
     {
         Teams.Add(new Team

@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TournamentManagement.Models.Classes;
 using TournamentManagement.Properties;
 
@@ -18,6 +20,8 @@ public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContex
     {
         ConnectionString = connectionString;
         Database.EnsureCreated();
+
+        Database.AutoSavepointsEnabled = true;
     }
 
     public DbTournamentContext(DbContextOptions<DbTournamentContext> options)
@@ -37,6 +41,7 @@ public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContex
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlServer(ConnectionString);
+        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Error);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -17,11 +17,14 @@
         <StackPanel Margin="10" Grid.Row="0">
             <Button Height="40" Margin="5" Content="Teams" Command="{Binding OpenTeamViewCommand}" />
             <Button Height="40" Margin="5" Content="Tournaments" Command="{Binding OpenTournamentViewCommand}" />
-            <Button Height="40" Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
-                     Margin="5" Content="Players" Command="{Binding OpenPlayerViewCommand}" />
-            <Button Height="40" Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
-                     Margin="5" Content="Matches" Command="{Binding OpenMatchViewCommand}" />
-            <Button Height="40" Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
+            <Button Height="40"
+                    Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Margin="5" Content="Players" Command="{Binding OpenPlayerViewCommand}" />
+            <Button Height="40"
+                    Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Margin="5" Content="Matches" Command="{Binding OpenMatchViewCommand}" />
+            <Button Height="40"
+                    Visibility="{Binding IsShowAllTables, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Margin="5" Content="Team Rosters" Command="{Binding OpenTeamRosterViewCommand}" />
 
         </StackPanel>

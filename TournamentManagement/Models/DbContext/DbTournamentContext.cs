@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TournamentManagement.Models.Classes;
@@ -13,13 +14,22 @@ public sealed class DbTournamentContext : Microsoft.EntityFrameworkCore.DbContex
     public DbTournamentContext(string connectionString)
     {
         ConnectionString = connectionString;
-        Database.EnsureCreated();
+        try
+        {
+            Database.EnsureCreated();
 
-        Database.AutoSavepointsEnabled = true;
+            Database.AutoSavepointsEnabled = true;
 
-        if (Matches.Any() || Players.Any() || Teams.Any() || Tournaments.Any() || TeamRosters.Any()) return;
+            if (Matches.Any() || Players.Any() || Teams.Any() || Tournaments.Any() || TeamRosters.Any()) return;
 
-        Database.ExecuteSqlRaw(GetSeedData());
+            Database.ExecuteSqlRaw(GetSeedData());
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(
+                e.Message + "\nAre you sure that SQL Server is installed? Try changing connection string if so.",
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     public string ConnectionString { get; set; }
